@@ -11,4 +11,7 @@ public interface DoctorClient {
 
     @GetMapping("/api/doctors/{id}/schedule")
     String getDoctorSchedule(@PathVariable Long id);
+
+    @GetMapping("/api/doctors/{id}")
+    String getDoctor(@PathVariable("id") Long doctorId);
 }

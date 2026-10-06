@@ -22,4 +22,12 @@ public class AppointmentController {
 
         return appointmentService.checkDoctorSchedule(doctorId);
     }
+
+    @GetMapping("/doctor/{doctorId}")
+    public String getDoctor(
+            @PathVariable Long doctorId
+    ) {
+
+        return appointmentService.getDoctor(doctorId);
+    }
 }

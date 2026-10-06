@@ -2,6 +2,7 @@ package org.example.appointmentservice.service;
 
 import org.example.appointmentservice.client.DoctorClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.example.appointmentservice.dto.ApiResponseError;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,5 +37,22 @@ public class AppointmentService {
 
         return "Doctor-Service đang tạm thời không khả dụng. "
                 + "Vui lòng thử lại sau.";
+    }
+
+    @CircuitBreaker(
+            name = "doctorServiceCB",
+            fallbackMethod = "getDoctorFallback"
+    )
+    public String getDoctor(Long doctorId) {
+
+        return doctorClient.getDoctor(doctorId);
+    }
+
+    public ApiResponseError getDoctorFallback(Exception e) {
+
+        return new ApiResponseError(
+                503,
+                "Hiện tại không thể kiểm tra thông tin bác sĩ, vui lòng thử lại sau vài giây"
+        );
     }
 }
